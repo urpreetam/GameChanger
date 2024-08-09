@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIGen RPG Game - Start</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/games.css') }}">
+</head>
+<body class="game-page {% if box_id == 1 %}tortoise-rabit{% elif box_id == 2 %}demon-slayer{% elif box_id == 3 %}harry-potter{% elif box_id == 4 %}lion-mouse{% endif %}">
+    <div class="instruction-box">
+        <div class="game-box">
+        </div>
+        <div class="storyline">
+            {% if box_id == 1 %}
+                <p>As a mage, you wield the power of the elements. Your journey begins in the ancient tower where magic is born.</p>
+            {% elif box_id == 2 %}
+                <p>As a warrior, you possess unmatched strength and courage. Your journey starts in the heart of the arena.</p>
+            {% elif box_id == 3 %}
+                <p>As an archer, your skill with the bow is unparalleled. Your adventure begins in the mysterious grove.</p>
+            {% elif box_id == 4 %}
+                <p>As a rogue, you master the shadows. Your path starts in the secretive den of thieves.</p>
+            {% else %}
+                <p>Select an adventure to begin your journey.</p>
+            {% endif %}
+        </div>
+        <button id="start-button">Start Game</button>
+    </div>
+</body>
+</html>

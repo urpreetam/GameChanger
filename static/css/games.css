@@ -1,0 +1,107 @@
+/* General Game Page Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: -webkit-fill-available;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    color: #ecf0f1;
+}
+
+/* Background images and specific styles for each game */
+.tortoise-rabit {
+    background-image: url('/static/images/tortoise-rabbit.jpg');
+}
+
+.demon-slayer {
+    background-image: url('/static/images/box2.jpg');
+}
+
+.harry-potter {
+    background-image: url('/static/images/harry-potter.jpg');
+}
+
+.lion-mouse {
+    background-image: url('/static/images/the-lion-and-the-mouse.jpeg');
+}
+
+/* Instruction Box Styles */
+.instruction-box {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* Game Box Image */
+.game-box img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Storyline Dialog */
+.storyline {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    line-height: 1.5em;
+}
+
+/* Start Button */
+#start-button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    background-color: #27ae60;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+#start-button:hover {
+    background-color: #2ecc71;
+}
+
+/* Specific styles for each theme */
+.tortoise-rabit .instruction-box {
+    background-color: rgba(52, 73, 94, 0.9);
+}
+
+.demon-slayer .instruction-box {
+    background-color: rgba(247, 220, 217, 0.9);
+}
+
+.harry-potter .instruction-box {
+    background-color: rgba(44, 62, 80, 0.9);
+}
+
+.lion-mouse .instruction-box {
+    background-color: rgba(39, 174, 96, 0.9);
+}
+
+.tortoise-rabit .storyline {
+    color: #f1c40f;
+}
+
+.demon-slayer .storyline {
+    color: #030000;
+}
+
+.harry-potter .storyline {
+    color: #3498db;
+}
+
+.lion-mouse .storyline {
+    color: #f0f7f3;
+}
