@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIGen RPG Game - Play</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gameplay.css') }}">
+</head>
+<body class="gameplay-page {% if box_id == 1 %}tortoise-rabbit{% elif box_id == 2 %}demon-slayer{% elif box_id == 3 %}harry-potter{% elif box_id == 4 %}lion-mouse{% endif %}">
+
+    <!-- Start Video Section -->
+    <div class="video-container" id="start-video-container">
+        <video id="start-video" src="{{ url_for('static', filename='videos/intro' + box_id|string + '.mp4') }}" class="video-content" autoplay></video>
+    </div>
+
+    <!-- Main Game Section -->
+    <div class="game-content" id="game-content" style="display: none;">
+        <div class="character">
+            <img src="" alt="Character" id="character-img">
+        </div>
+        <div class="dialogue-box" id="dialogue-box">
+            <p id="dialogue-text">Loading...</p>
+            <button id="next-button" class="next-button">Next</button>
+        </div>
+        <div class="choices" id="choices" style="display: none;">
+            <!-- Choices will be populated here dynamically -->
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script>
+        window.onload = function() {
+            const videoContainer = document.getElementById('start-video-container');
+            const video = document.getElementById('start-video');
+
+            videoContainer.style.display = 'flex';
+            video.play();
+
+            video.onended = function() {
+                videoContainer.style.display = 'none';
+                document.getElementById('game-content').style.display = 'block';
+                startGame();
+            };
+        };
+
+        function startGame() {
+            fetchGameState();
+        }
+
+        function fetchGameState() {
+            fetch('/get_game_state')
+                .then(response => response.json())
+                .then(data => {
+                    initializeGame(data);
+                })
+                .catch(error => console.error('Error fetching game state:', error));
+        }
+
+        function initializeGame(data) {
+            const characterImg = document.getElementById('character-img');
+            const dialogueText = document.getElementById('dialogue-text');
+            const choicesContainer = document.getElementById('choices');
+            const nextButton = document.getElementById('next-button');
+            const gameContent = document.getElementById('game-content');
+
+            characterImg.src = data.character_image;
+            dialogueText.textContent = data.story_progress;
+
+            // Set background image
+            if (data.background_image) {
+                gameContent.style.backgroundImage = `url(${data.background_image})`;
+            }
+
+            // Check if box_id is present and valid
+            if (data.box_id) {
+                window.history.pushState({}, '', `/gameplay/${data.box_id}`);
+            } else {
+                console.error('box_id is undefined or invalid.');
+            }
+
+            // Clear previous choices and add new ones
+            choicesContainer.innerHTML = '';
+            data.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.textContent = choice;
+                button.addEventListener('click', () => submitChoice(choice));
+                choicesContainer.appendChild(button);
+            });
+
+            choicesContainer.style.display = data.choices.length > 0 ? 'block' : 'none';
+
+            // Show the "Next" button only if there are no choices
+            nextButton.style.display = data.choices.length === 0 ? 'inline-block' : 'none';
+            nextButton.addEventListener('click', () => submitChoice('continue'));
+        }
+
+        function submitChoice(choice) {
+            fetch('/make_choice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ choice: choice }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the game state and story with new data from the server
+                updateGame(data);
+            });
+        }
+
+        function updateGame(data) {
+            const dialogueText = document.getElementById('dialogue-text');
+            const choicesContainer = document.getElementById('choices');
+            const nextButton = document.getElementById('next-button');
+
+            dialogueText.textContent = data.story_progress;
+
+            // Clear previous choices
+            choicesContainer.innerHTML = '';
+
+            // Add new choices to the choices container
+            data.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.textContent = choice;
+                button.addEventListener('click', () => submitChoice(choice));
+                choicesContainer.appendChild(button);
+            });
+
+            choicesContainer.style.display = data.choices.length > 0 ? 'block' : 'none';
+            nextButton.style.display = data.choices.length === 0 ? 'inline-block' : 'none';
+        }
+    </script>
+</body>
+</html>

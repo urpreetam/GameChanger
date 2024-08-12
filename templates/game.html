@@ -8,22 +8,34 @@
 </head>
 <body class="game-page {% if box_id == 1 %}tortoise-rabit{% elif box_id == 2 %}demon-slayer{% elif box_id == 3 %}harry-potter{% elif box_id == 4 %}lion-mouse{% endif %}">
     <div class="instruction-box">
-        <div class="game-box">
-        </div>
+        <!-- <div class="game-box">
+            <video id="game-video" data-video-src="{% if box_id == 1 %}{{ url_for('static', filename='videos/tortoise-rabbit.mp4') }}{% elif box_id == 2 %}{{ url_for('static', filename='videos/demon-slayer.mp4') }}{% elif box_id == 3 %}{{ url_for('static', filename='videos/harry-potter.mp4') }}{% elif box_id == 4 %}{{ url_for('static', filename='videos/lion-mouse.mp4') }}{% endif %}" class="video-content"></video>
+        </div> -->
         <div class="storyline">
             {% if box_id == 1 %}
-                <p>As a mage, you wield the power of the elements. Your journey begins in the ancient tower where magic is born.</p>
+                <p>The classical story of Tortoise and hare. It will be followed with your twists and turns to decide who will win the race next!</p>
             {% elif box_id == 2 %}
-                <p>As a warrior, you possess unmatched strength and courage. Your journey starts in the heart of the arena.</p>
+                <p>The famous Manga of Demon Slayers that states the story of Young Kamado and her sister Nezuko who turned into a demon. Let's see if you can prevent the scenario that keeps her as a human or not!</p>
             {% elif box_id == 3 %}
-                <p>As an archer, your skill with the bow is unparalleled. Your adventure begins in the mysterious grove.</p>
+                <p>This is the famour story of Harry Potter. The adventures and thrills may drill your hearts while playing this game.</p>
             {% elif box_id == 4 %}
-                <p>As a rogue, you master the shadows. Your path starts in the secretive den of thieves.</p>
+                <p>The RPG game of Mouse and Lion. Can you keep them as friends or do your decisions make them kill each other. Let's find out your capabilities!</p>
             {% else %}
                 <p>Select an adventure to begin your journey.</p>
             {% endif %}
         </div>
         <button id="start-button">Start Game</button>
     </div>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script>
+        document.getElementById('start-button').addEventListener('click', function() {
+            // console.log('Start Game button clicked');
+            const boxId = "{{ box_id }}";
+            const url = `/gameplay/${boxId}`;
+            // console.log('Redirecting to:', url);
+            window.location.href = url;
+        });
+    </script>
 </body>
 </html>

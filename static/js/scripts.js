@@ -1,8 +1,3 @@
-// Add any interactivity you want here
-// For example, you can add event listeners or animations
-
-// Example: Change background color of image box on hover
-// Add click event listeners to each box
 document.querySelectorAll('.image-box').forEach((box, index) => {
     box.addEventListener('mouseenter', () => {
         box.style.backgroundColor = '#e74c3c';
@@ -18,3 +13,21 @@ document.querySelectorAll('.image-box').forEach((box, index) => {
     });
 });
 
+// For gameplay.html video handling
+window.onload = function() {
+    const videoContainer = document.getElementById('start-video-container');
+    const video = document.getElementById('start-video');
+
+    videoContainer.style.display = 'flex';
+    video.play();
+
+    video.onended = function() {
+        videoContainer.style.display = 'none';
+        document.getElementById('game-content').style.display = 'block';
+        startGame();
+    };
+};
+
+function startGame() {
+    // Game initialization logic here
+}
